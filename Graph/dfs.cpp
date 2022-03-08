@@ -5,46 +5,22 @@ using namespace std;
 class Solution {
   public:
     // Function to return a list containing the DFS traversal of the graph.
-    void dfs(vector<int>adj[],bool *visited,vector<int>&ans,int s,int V){
-      if(adj[s].size()==1){
-          if(visited[adj[s][0]]==true){
-              if(visited[s]!=true){
-              ans.push_back(s);
-              visited[s]=true;}
-              return ;
-          }
-         
-      }
-        if(s>=V){
-            return;
-        }else{
-            if(visited[s]!=true){
-                ans.push_back(s);
-                visited[s]=true;
-            }
-            
-            for(int i=0;i<adj[s].size();i++){
-                
-                
-                if(visited[adj[s][i]]!=true){
-                    
-                    ans.push_back(adj[s][i]);
-                    visited[adj[s][i]]=true;
-                    dfs(adj,visited,ans,adj[s][i],V);
-                }
-                
-            }
-          return;
+    void dfs(vector<int>adj[],vector<int>&visited,vector<int>&ans,int s){
+        ans.push_back(s);
+        visited[s]=1;
+        for(auto it : adj[s]){
+            if(!visited[it]  ){
+            dfs(adj,visited,ans,it);}
         }
     }
     vector<int> dfsOfGraph(int V, vector<int> adj[]) {
         // Code here
         vector<int>ans;
-        bool *visited=new bool[V];
+        vector<int>visited(V+1,0);
         for(int i=0;i<V;i++){
-            visited[i]=false;
+        if(!visited[i]){
+        dfs(adj,visited,ans,i);}
         }
-        dfs(adj,visited,ans,0,V);
         return ans;
     }
 };
